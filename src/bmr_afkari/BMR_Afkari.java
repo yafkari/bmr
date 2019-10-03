@@ -3,6 +3,7 @@ package bmr_afkari;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,15 +21,16 @@ public class BMR_Afkari extends Application {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
 
+        Button submitButton = new Button("Submit");
+
         HBox rootPanel = new HBox();
         GridPane leftPanel = new GridPane();
         GridPane rightPanel = new GridPane();
 
         // TODO
         
-        
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
-        root.getChildren().add(rootPanel);
+        root.getChildren().addAll(rootPanel, submitButton);
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
