@@ -1,11 +1,11 @@
 package bmr_afkari;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -13,25 +13,23 @@ import javafx.stage.Stage;
  * @author 52196
  */
 public class BMR_Afkari extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        primaryStage.setTitle("Basal Metabolic Rate");
+        VBox root = new VBox(10);
+        root.setAlignment(Pos.CENTER);
+
+        HBox rootPanel = new HBox();
+        GridPane leftPanel = new GridPane();
+        GridPane rightPanel = new GridPane();
+
+        // TODO
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
         
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
+        rootPanel.getChildren().addAll(leftPanel, rightPanel);
+        root.getChildren().add(rootPanel);
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -42,5 +40,4 @@ public class BMR_Afkari extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }
