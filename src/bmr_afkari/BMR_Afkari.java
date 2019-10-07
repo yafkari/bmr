@@ -5,7 +5,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -38,6 +40,7 @@ public class BMR_Afkari extends Application {
         GridPane leftPanel = new GridPane();
         GridPane rightPanel = new GridPane();
         leftPanel.setVgap(20);
+        leftPanel.setHgap(10);
         rightPanel.setVgap(20);
 
         Button submitButton = new Button("Submit");
@@ -52,16 +55,25 @@ public class BMR_Afkari extends Application {
         Label ageLabel = new Label("Age (years)");
         TextField ageInput = new TextField();
         Label genderLabel = new Label("Gender");
+        RadioButton womanButton = new RadioButton("Woman");
+        womanButton.setAlignment(Pos.CENTER_RIGHT);
+        RadioButton manButton = new RadioButton("Man");
         Label lifestyleLabel = new Label("Life Style");
-        
+        ChoiceBox<ActivityLevel> lifestyleChoice = new ChoiceBox();
+        lifestyleChoice.getItems().setAll(ActivityLevel.values());
 
         leftPanel.add(leftPaneTitle, 0, 0);
         leftPanel.add(sizeLabel, 0, 1);
         leftPanel.add(sizeInput, 1, 1);
         leftPanel.add(weightLabel, 0, 2);
+        leftPanel.add(weightInput, 1, 2);
         leftPanel.add(ageLabel, 0, 3);
+        leftPanel.add(ageInput, 1, 3);
         leftPanel.add(genderLabel, 0, 4);
+        leftPanel.add(womanButton, 1, 4, 2, 1);
+        leftPanel.add(manButton, 2, 4);
         leftPanel.add(lifestyleLabel, 0, 5);
+        leftPanel.add(lifestyleChoice, 1, 5);
 
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
         root.getChildren().addAll(rootPanel, submitButton);
