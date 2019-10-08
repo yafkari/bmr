@@ -2,6 +2,7 @@ package bmr_afkari;
 
 import java.text.DecimalFormat;
 import javafx.application.Application;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -52,9 +53,6 @@ public class BMR_Afkari extends Application {
         leftPanel.setHgap(10);
         rightPanel.setVgap(10);
         rightPanel.setHgap(10);
-
-        Button submitButton = new Button("Submit");
-        submitButton.setMinWidth(450);
 
         Text leftPaneTitle = new Text("Data");
         leftPaneTitle.setUnderline(true);
@@ -108,6 +106,24 @@ public class BMR_Afkari extends Application {
         rightPanel.add(caloriesLabel, 0, 2);
         rightPanel.add(caloriesField, 1, 2);
 
+        BooleanBinding bb = new BooleanBinding() {
+            {
+                super.bind(sizeInput.textProperty(), weightInput.textProperty(),
+                        ageInput.textProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return (sizeInput.getText().isEmpty()
+                        || weightInput.getText().isEmpty()
+                        || ageInput.getText().isEmpty());
+            }
+        };
+
+        Button submitButton = new Button("Submit");
+        submitButton.setMinWidth(450);
+        submitButton.disableProperty().bind(bb);
+
         submitButton.setOnAction((ActionEvent e) -> {
             DecimalFormat df = new DecimalFormat("0.00");
             if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
@@ -121,9 +137,9 @@ public class BMR_Afkari extends Application {
                 Double result = bmrManCalculation(sizeInput.getText(),
                         weightInput.getText(),
                         ageInput.getText());
-                bmrField.setText(String.valueOf(result));
-                caloriesField.setText(String.valueOf(result
-                        * lifestyleChoice.getValue().getFactor()));
+                bmrField.setText(String.valueOf(df.format(result)));
+                caloriesField.setText(String.valueOf(df.format(result
+                        * lifestyleChoice.getValue().getFactor())));
             }
         });
 
