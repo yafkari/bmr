@@ -2,7 +2,7 @@ package bmr_afkari;
 
 import java.text.DecimalFormat;
 import javafx.application.Application;
-import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -106,23 +106,13 @@ public class BMR_Afkari extends Application {
         rightPanel.add(caloriesLabel, 0, 2);
         rightPanel.add(caloriesField, 1, 2);
 
-        BooleanBinding bb = new BooleanBinding() {
-            {
-                super.bind(sizeInput.textProperty(), weightInput.textProperty(),
-                        ageInput.textProperty());
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return (sizeInput.getText().isEmpty()
-                        || weightInput.getText().isEmpty()
-                        || ageInput.getText().isEmpty());
-            }
-        };
-
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);
-        submitButton.disableProperty().bind(bb);
+        submitButton.disableProperty().bind(
+                Bindings.isEmpty(sizeInput.textProperty())
+                        .or(Bindings.isEmpty(weightInput.textProperty())
+                                .or(Bindings.isEmpty(ageInput.textProperty())))
+        );
 
         submitButton.setOnAction((ActionEvent e) -> {
             DecimalFormat df = new DecimalFormat("0.00");

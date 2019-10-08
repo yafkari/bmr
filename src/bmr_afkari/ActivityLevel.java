@@ -2,7 +2,7 @@ package bmr_afkari;
 
 /**
  *
- * @author Younes
+ * @author 52196
  */
 public enum ActivityLevel {
     SEDENTARY("Sedentary", 1.2),
