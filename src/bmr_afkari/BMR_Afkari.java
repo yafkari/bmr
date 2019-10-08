@@ -28,21 +28,22 @@ public class BMR_Afkari extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
 
-        VBox root = new VBox(50);
+        VBox root = new VBox(30);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(25, 25, 25, 25));
 
-        HBox rootPanel = new HBox();
+        HBox rootPanel = new HBox(20);
 
         GridPane leftPanel = new GridPane();
         GridPane rightPanel = new GridPane();
-        leftPanel.setVgap(20);
+        leftPanel.setVgap(10);
         leftPanel.setHgap(10);
-        rightPanel.setVgap(20);
+        rightPanel.setVgap(10);
+        rightPanel.setHgap(10);
 
         Button submitButton = new Button("Submit");
-        submitButton.setMinWidth(500);
-        
+        submitButton.setMinWidth(450);
+
         Text leftPaneTitle = new Text("Data");
         leftPaneTitle.setUnderline(true);
         leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
@@ -54,7 +55,7 @@ public class BMR_Afkari extends Application {
         Label ageLabel = new Label("Age (years)");
         TextField ageInput = new TextField();
         Label genderLabel = new Label("Gender");
-        
+
         ToggleGroup genderGroup = new ToggleGroup();
         RadioButton womanButton = new RadioButton("Woman");
         womanButton.setToggleGroup(genderGroup);
@@ -76,9 +77,26 @@ public class BMR_Afkari extends Application {
         leftPanel.add(lifestyleLabel, 0, 5);
         leftPanel.add(lifestyleChoice, 1, 5);
 
+        Text rightPaneTitle = new Text("Result");
+        rightPaneTitle.setUnderline(true);
+        rightPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
+
+        Label bmrLabel = new Label("BMR");
+        TextField bmrField = new TextField();
+        bmrField.setEditable(false);
+        Label caloriesLabel = new Label("Calories");
+        TextField caloriesField = new TextField();
+        caloriesField.setEditable(false);
+
+        rightPanel.add(rightPaneTitle, 0, 0);
+        rightPanel.add(bmrLabel, 0, 1);
+        rightPanel.add(bmrField, 1, 1);
+        rightPanel.add(caloriesLabel, 0, 2);
+        rightPanel.add(caloriesField, 1, 2);
+
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
         root.getChildren().addAll(rootPanel, submitButton);
-        Scene scene = new Scene(root, 600, 350);
+        Scene scene = new Scene(root, 500, 300);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
