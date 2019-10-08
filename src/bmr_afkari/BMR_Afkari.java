@@ -1,6 +1,7 @@
 package bmr_afkari;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,6 +24,16 @@ import javafx.stage.Stage;
  * @author 52196
  */
 public class BMR_Afkari extends Application {
+
+    double bmrWomanCalculation(String size, String weight, String age) {
+        return 9.6 * Double.parseDouble(weight) + 1.8 * Double.parseDouble(size)
+                - 4.7 * Double.parseDouble(age) + 655;
+    }
+
+    double bmrManCalculation(String size, String weight, String age) {
+        return 13.7 * Double.parseDouble(weight) + 5 * Double.parseDouble(size)
+                - 6.8 * Double.parseDouble(age) + 66;
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -59,8 +70,10 @@ public class BMR_Afkari extends Application {
         ToggleGroup genderGroup = new ToggleGroup();
         RadioButton womanButton = new RadioButton("Woman");
         womanButton.setToggleGroup(genderGroup);
+        womanButton.setUserData("woman");
         RadioButton manButton = new RadioButton("Man");
         manButton.setToggleGroup(genderGroup);
+        manButton.setUserData("man");
         Label lifestyleLabel = new Label("Life Style");
         ChoiceBox<ActivityLevel> lifestyleChoice = new ChoiceBox();
         lifestyleChoice.getItems().setAll(ActivityLevel.values());
@@ -93,6 +106,19 @@ public class BMR_Afkari extends Application {
         rightPanel.add(bmrField, 1, 1);
         rightPanel.add(caloriesLabel, 0, 2);
         rightPanel.add(caloriesField, 1, 2);
+
+        submitButton.setOnAction((ActionEvent e) -> {
+            System.out.println(genderGroup.getSelectedToggle().getUserData());
+            if (genderGroup.getSelectedToggle().getUserData().toString().equals("woman")) {
+                bmrField.setText(String.valueOf(bmrWomanCalculation(sizeInput.getText(),
+                        weightInput.getText(),
+                        ageInput.getText()) * lifestyleChoice.getValue().getFactor()));
+            } else if (genderGroup.getSelectedToggle().getUserData().toString().equals("man")) {
+                bmrField.setText(String.valueOf(bmrManCalculation(sizeInput.getText(),
+                        weightInput.getText(),
+                        ageInput.getText()) * lifestyleChoice.getValue().getFactor()));
+            }
+        });
 
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
         root.getChildren().addAll(rootPanel, submitButton);
