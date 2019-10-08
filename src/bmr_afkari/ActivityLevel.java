@@ -5,16 +5,22 @@ package bmr_afkari;
  * @author Younes
  */
 public enum ActivityLevel {
-    SEDENTARY("Sedentary"),
-    INACTIVE("Inactive"),
-    ACTIVE("Active"),
-    VERY_ACTIVE("Very active"),
-    EXTREMELY_ACTIVE("Extremely active");
+    SEDENTARY("Sedentary", 1.2),
+    INACTIVE("Inactive", 1.375),
+    ACTIVE("Active", 1.55),
+    VERY_ACTIVE("Very active", 1.725),
+    EXTREMELY_ACTIVE("Extremely active", 1.9);
 
     private String label;
+    private double factor;
 
-    ActivityLevel(String label) {
+    ActivityLevel(String label, double factor) {
         this.label = label;
+        this.factor = factor;
+    }
+
+    public double getFactor() {
+        return factor;
     }
 
     public String toString() {
