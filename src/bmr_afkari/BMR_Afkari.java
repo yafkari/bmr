@@ -28,7 +28,7 @@ public class BMR_Afkari extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
 
-        VBox root = new VBox(10);
+        VBox root = new VBox(50);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(25, 25, 25, 25));
 
@@ -41,6 +41,8 @@ public class BMR_Afkari extends Application {
         rightPanel.setVgap(20);
 
         Button submitButton = new Button("Submit");
+        submitButton.setMinWidth(500);
+        
         Text leftPaneTitle = new Text("Data");
         leftPaneTitle.setUnderline(true);
         leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
@@ -76,8 +78,9 @@ public class BMR_Afkari extends Application {
 
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
         root.getChildren().addAll(rootPanel, submitButton);
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 600, 350);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
