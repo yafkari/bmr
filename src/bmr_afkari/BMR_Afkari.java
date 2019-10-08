@@ -1,5 +1,6 @@
 package bmr_afkari;
 
+import java.text.DecimalFormat;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -108,15 +109,21 @@ public class BMR_Afkari extends Application {
         rightPanel.add(caloriesField, 1, 2);
 
         submitButton.setOnAction((ActionEvent e) -> {
-            System.out.println(genderGroup.getSelectedToggle().getUserData());
-            if (genderGroup.getSelectedToggle().getUserData().toString().equals("woman")) {
-                bmrField.setText(String.valueOf(bmrWomanCalculation(sizeInput.getText(),
+            DecimalFormat df = new DecimalFormat("0.00");
+            if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
+                Double result = bmrWomanCalculation(sizeInput.getText(),
                         weightInput.getText(),
-                        ageInput.getText()) * lifestyleChoice.getValue().getFactor()));
-            } else if (genderGroup.getSelectedToggle().getUserData().toString().equals("man")) {
-                bmrField.setText(String.valueOf(bmrManCalculation(sizeInput.getText(),
+                        ageInput.getText());
+                bmrField.setText(String.valueOf(df.format(result)));
+                caloriesField.setText(String.valueOf(df.format(result
+                        * lifestyleChoice.getValue().getFactor())));
+            } else {
+                Double result = bmrManCalculation(sizeInput.getText(),
                         weightInput.getText(),
-                        ageInput.getText()) * lifestyleChoice.getValue().getFactor()));
+                        ageInput.getText());
+                bmrField.setText(String.valueOf(result));
+                caloriesField.setText(String.valueOf(result
+                        * lifestyleChoice.getValue().getFactor()));
             }
         });
 
