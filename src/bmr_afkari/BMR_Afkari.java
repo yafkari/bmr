@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,7 +40,7 @@ public class BMR_Afkari extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
 
-        VBox root = new VBox(30);
+        VBox root = new VBox(25);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(25, 25, 25, 25));
 
@@ -139,10 +140,31 @@ public class BMR_Afkari extends Application {
                 caloriesField.setText(String.valueOf(df.format(result * factor)));
             }
         });
+        
+        Button clearButton = new Button("Clear");
+        clearButton.setMinWidth(450);
+        clearButton.disableProperty().bind(
+                Bindings.isEmpty(sizeInput.textProperty())
+                        .and(Bindings.isEmpty(weightInput.textProperty())
+                                .and(Bindings.isEmpty(ageInput.textProperty())))
+        );
+        
+        clearButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                sizeInput.setText("");
+                weightInput.setText("");
+                ageInput.setText("");
+                lifestyleChoice.getSelectionModel().clearSelection();
+                bmrField.setText("");
+                caloriesField.setText("");
+            }
+            
+        });
 
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
-        root.getChildren().addAll(rootPanel, submitButton);
-        Scene scene = new Scene(root, 500, 300);
+        root.getChildren().addAll(rootPanel, submitButton, clearButton);
+        Scene scene = new Scene(root, 500, 320);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
