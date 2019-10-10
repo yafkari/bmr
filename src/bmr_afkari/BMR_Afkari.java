@@ -27,36 +27,36 @@ import javafx.stage.Stage;
  * @author 52196
  */
 public class BMR_Afkari extends Application {
-
+    
     double bmrWomanCalculation(double size, double weight, int age) {
         return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
     }
-
+    
     double bmrManCalculation(double size, double weight, int age) {
         return 13.7 * weight + 5 * size - 6.8 * age + 66;
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
-
+        
         VBox root = new VBox(25);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(25, 25, 25, 25));
-
+        
         HBox rootPanel = new HBox(20);
-
+        
         GridPane leftPanel = new GridPane();
         GridPane rightPanel = new GridPane();
         leftPanel.setVgap(10);
         leftPanel.setHgap(10);
         rightPanel.setVgap(10);
         rightPanel.setHgap(10);
-
+        
         Text leftPaneTitle = new Text("Data");
         leftPaneTitle.setUnderline(true);
         leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
-
+        
         Label sizeLabel = new Label("Size (cm)");
         DoubleTextField sizeInput = new DoubleTextField();
         Label weightLabel = new Label("Weight (kg)");
@@ -64,7 +64,7 @@ public class BMR_Afkari extends Application {
         Label ageLabel = new Label("Age (years)");
         IntTextField ageInput = new IntTextField();
         Label genderLabel = new Label("Gender");
-
+        
         ToggleGroup genderGroup = new ToggleGroup();
         RadioButton womanButton = new RadioButton("Woman");
         womanButton.setToggleGroup(genderGroup);
@@ -75,7 +75,7 @@ public class BMR_Afkari extends Application {
         Label lifestyleLabel = new Label("Life Style");
         ChoiceBox<ActivityLevel> lifestyleChoice = new ChoiceBox();
         lifestyleChoice.getItems().setAll(ActivityLevel.values());
-
+        
         leftPanel.add(leftPaneTitle, 0, 0);
         leftPanel.add(sizeLabel, 0, 1);
         leftPanel.add(sizeInput, 1, 1);
@@ -87,32 +87,34 @@ public class BMR_Afkari extends Application {
         leftPanel.add(new HBox(20, womanButton, manButton), 1, 4);
         leftPanel.add(lifestyleLabel, 0, 5);
         leftPanel.add(lifestyleChoice, 1, 5);
-
+        
         Text rightPaneTitle = new Text("Result");
         rightPaneTitle.setUnderline(true);
         rightPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
-
+        
         Label bmrLabel = new Label("BMR");
         TextField bmrField = new TextField();
         bmrField.setEditable(false);
         Label caloriesLabel = new Label("Calories");
         TextField caloriesField = new TextField();
         caloriesField.setEditable(false);
-
+        
         rightPanel.add(rightPaneTitle, 0, 0);
         rightPanel.add(bmrLabel, 0, 1);
         rightPanel.add(bmrField, 1, 1);
         rightPanel.add(caloriesLabel, 0, 2);
         rightPanel.add(caloriesField, 1, 2);
-
+        
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);
         submitButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
                         .or(Bindings.isEmpty(weightInput.textProperty())
-                                .or(Bindings.isEmpty(ageInput.textProperty())))
+                        .or(Bindings.isEmpty(ageInput.textProperty())))
+                        .or(Bindings.isNull(lifestyleChoice.valueProperty()))
+                        .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
-
+        
         submitButton.setOnAction((ActionEvent e) -> {
             DecimalFormat df = new DecimalFormat("0.00");
             double size;
@@ -129,7 +131,7 @@ public class BMR_Afkari extends Application {
             }
             
             double factor = lifestyleChoice.getValue().getFactor();
-
+            
             if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
                 Double result = bmrWomanCalculation(size, weight, age);
                 bmrField.setText(String.valueOf(df.format(result)));
@@ -146,7 +148,9 @@ public class BMR_Afkari extends Application {
         clearButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
                         .and(Bindings.isEmpty(weightInput.textProperty())
-                                .and(Bindings.isEmpty(ageInput.textProperty())))
+                        .and(Bindings.isEmpty(ageInput.textProperty())))
+                        .and(Bindings.isNull(lifestyleChoice.valueProperty()))
+                        .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
         
         clearButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
@@ -156,12 +160,13 @@ public class BMR_Afkari extends Application {
                 weightInput.setText("");
                 ageInput.setText("");
                 lifestyleChoice.getSelectionModel().clearSelection();
+                genderGroup.getSelectedToggle().setSelected(false);
                 bmrField.setText("");
                 caloriesField.setText("");
             }
             
         });
-
+        
         rootPanel.getChildren().addAll(leftPanel, rightPanel);
         root.getChildren().addAll(rootPanel, submitButton, clearButton);
         Scene scene = new Scene(root, 500, 320);
