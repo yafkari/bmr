@@ -27,14 +27,12 @@ import javafx.stage.Stage;
  */
 public class BMR_Afkari extends Application {
 
-    double bmrWomanCalculation(String size, String weight, String age) {
-        return 9.6 * Double.parseDouble(weight) + 1.8 * Double.parseDouble(size)
-                - 4.7 * Double.parseDouble(age) + 655;
+    double bmrWomanCalculation(double size, double weight, int age) {
+        return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
     }
 
-    double bmrManCalculation(String size, String weight, String age) {
-        return 13.7 * Double.parseDouble(weight) + 5 * Double.parseDouble(size)
-                - 6.8 * Double.parseDouble(age) + 66;
+    double bmrManCalculation(double size, double weight, int age) {
+        return 13.7 * weight + 5 * size - 6.8 * age + 66;
     }
 
     @Override
@@ -59,11 +57,11 @@ public class BMR_Afkari extends Application {
         leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
 
         Label sizeLabel = new Label("Size (cm)");
-        TextField sizeInput = new TextField();
+        DoubleTextField sizeInput = new DoubleTextField();
         Label weightLabel = new Label("Weight (kg)");
-        TextField weightInput = new TextField();
+        DoubleTextField weightInput = new DoubleTextField();
         Label ageLabel = new Label("Age (years)");
-        TextField ageInput = new TextField();
+        IntTextField ageInput = new IntTextField();
         Label genderLabel = new Label("Gender");
 
         ToggleGroup genderGroup = new ToggleGroup();
@@ -116,20 +114,29 @@ public class BMR_Afkari extends Application {
 
         submitButton.setOnAction((ActionEvent e) -> {
             DecimalFormat df = new DecimalFormat("0.00");
+            double size;
+            double weight;
+            int age;
+            try {
+                size = Double.parseDouble(sizeInput.getText());
+                weight = Double.parseDouble(weightInput.getText());
+                age = Integer.parseInt(ageInput.getText());
+            } catch (NumberFormatException ex) {
+                bmrField.setText("CHECK THE VALUES !");
+                caloriesField.setText("");
+                return;
+            }
+            
+            double factor = lifestyleChoice.getValue().getFactor();
+
             if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
-                Double result = bmrWomanCalculation(sizeInput.getText(),
-                        weightInput.getText(),
-                        ageInput.getText());
+                Double result = bmrWomanCalculation(size, weight, age);
                 bmrField.setText(String.valueOf(df.format(result)));
-                caloriesField.setText(String.valueOf(df.format(result
-                        * lifestyleChoice.getValue().getFactor())));
+                caloriesField.setText(String.valueOf(df.format(result * factor)));
             } else {
-                Double result = bmrManCalculation(sizeInput.getText(),
-                        weightInput.getText(),
-                        ageInput.getText());
+                Double result = bmrManCalculation(size, weight, age);
                 bmrField.setText(String.valueOf(df.format(result)));
-                caloriesField.setText(String.valueOf(df.format(result
-                        * lifestyleChoice.getValue().getFactor())));
+                caloriesField.setText(String.valueOf(df.format(result * factor)));
             }
         });
 
