@@ -8,6 +8,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -140,6 +142,10 @@ public class BMR_Afkari extends Application {
                 bmrField.setText("CHECK THE VALUES !");
                 caloriesField.setText("");
                 return;
+            }
+            
+            if (size == 0 || weight == 0 || age == 0) {
+                new Alert(AlertType.ERROR, "Please enter non-zero value").show();
             }
 
             double factor = lifestyleChoice.getValue().getFactor();
