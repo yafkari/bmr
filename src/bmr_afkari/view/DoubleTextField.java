@@ -1,4 +1,4 @@
-package bmr_afkari;
+package bmr_afkari.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

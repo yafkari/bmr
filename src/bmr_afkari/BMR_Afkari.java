@@ -1,5 +1,9 @@
 package bmr_afkari;
 
+import bmr_afkari.model.ActivityLevel;
+import bmr_afkari.view.DoubleTextField;
+import bmr_afkari.view.IntTextField;
+import bmr_afkari.view.RightPane;
 import java.text.DecimalFormat;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -19,7 +23,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,7 +38,9 @@ import javafx.stage.Stage;
 public class BMR_Afkari extends Application {
 
     double bmrWomanCalculation(double size, double weight, int age) {
+
         return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
+
     }
 
     double bmrManCalculation(double size, double weight, int age) {
@@ -46,8 +51,12 @@ public class BMR_Afkari extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
 
-        VBox root = new VBox(25);
-        root.setAlignment(Pos.TOP_CENTER);
+        VBox rootStage = new VBox();
+        HBox root = new HBox();
+
+        VBox data = new VBox(25);
+        data.setAlignment(Pos.TOP_CENTER);
+        data.setPadding(new Insets(20, 0, 0, 20));
 
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
@@ -58,14 +67,13 @@ public class BMR_Afkari extends Application {
         menuFile.getItems().add(menuItemExit);
         menuBar.getMenus().add(menuFile);
 
-        HBox rootPanel = new HBox(20);
-        rootPanel.setPadding(new Insets(0, 20, 0, 20));
+        Chart chart = new Chart();
+
+        HBox dataPanel = new HBox(20);
         GridPane leftPanel = new GridPane();
-        GridPane rightPanel = new GridPane();
+        RightPane rightPanel = new RightPane();
         leftPanel.setVgap(10);
         leftPanel.setHgap(10);
-        rightPanel.setVgap(10);
-        rightPanel.setHgap(10);
 
         Text leftPaneTitle = new Text("Data");
         leftPaneTitle.setUnderline(true);
@@ -102,23 +110,6 @@ public class BMR_Afkari extends Application {
         leftPanel.add(lifestyleLabel, 0, 5);
         leftPanel.add(lifestyleChoice, 1, 5);
 
-        Text rightPaneTitle = new Text("Result");
-        rightPaneTitle.setUnderline(true);
-        rightPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
-
-        Label bmrLabel = new Label("BMR");
-        TextField bmrField = new TextField();
-        bmrField.setEditable(false);
-        Label caloriesLabel = new Label("Calories");
-        TextField caloriesField = new TextField();
-        caloriesField.setEditable(false);
-
-        rightPanel.add(rightPaneTitle, 0, 0);
-        rightPanel.add(bmrLabel, 0, 1);
-        rightPanel.add(bmrField, 1, 1);
-        rightPanel.add(caloriesLabel, 0, 2);
-        rightPanel.add(caloriesField, 1, 2);
-
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);
         submitButton.disableProperty().bind(
@@ -139,11 +130,11 @@ public class BMR_Afkari extends Application {
                 weight = Double.parseDouble(weightInput.getText());
                 age = Integer.parseInt(ageInput.getText());
             } catch (NumberFormatException ex) {
-                bmrField.setText("CHECK THE VALUES !");
-                caloriesField.setText("");
+                rightPanel.getBmrField().setText("CHECK THE VALUES !");
+                rightPanel.getCaloriesField().setText("");
                 return;
             }
-            
+
             if (size == 0 || weight == 0 || age == 0) {
                 new Alert(AlertType.ERROR, "Please enter non-zero value").show();
             }
@@ -152,12 +143,12 @@ public class BMR_Afkari extends Application {
 
             if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
                 Double result = bmrWomanCalculation(size, weight, age);
-                bmrField.setText(String.valueOf(df.format(result)));
-                caloriesField.setText(String.valueOf(df.format(result * factor)));
+                rightPanel.getBmrField().setText(String.valueOf(df.format(result)));
+                rightPanel.getCaloriesField().setText(String.valueOf(df.format(result * factor)));
             } else {
                 Double result = bmrManCalculation(size, weight, age);
-                bmrField.setText(String.valueOf(df.format(result)));
-                caloriesField.setText(String.valueOf(df.format(result * factor)));
+                rightPanel.getBmrField().setText(String.valueOf(df.format(result)));
+                rightPanel.getCaloriesField().setText(String.valueOf(df.format(result * factor)));
             }
         });
 
@@ -171,7 +162,8 @@ public class BMR_Afkari extends Application {
                         .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
 
-        clearButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        clearButton.addEventHandler(ActionEvent.ACTION,
+                new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 sizeInput.setText("");
@@ -179,15 +171,17 @@ public class BMR_Afkari extends Application {
                 ageInput.setText("");
                 lifestyleChoice.getSelectionModel().clearSelection();
                 genderGroup.getSelectedToggle().setSelected(false);
-                bmrField.setText("");
-                caloriesField.setText("");
+                rightPanel.getBmrField().setText("");
+                rightPanel.getCaloriesField().setText("");
             }
 
         });
 
-        rootPanel.getChildren().addAll(leftPanel, rightPanel);
-        root.getChildren().addAll(menuBar, rootPanel, submitButton, clearButton);
-        Scene scene = new Scene(root, 500, 350);
+        dataPanel.getChildren().addAll(leftPanel, rightPanel);
+        data.getChildren().addAll(dataPanel, submitButton, clearButton);
+        root.getChildren().addAll(data, chart);
+        rootStage.getChildren().addAll(menuBar, root);
+        Scene scene = new Scene(rootStage, 1000, 350);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

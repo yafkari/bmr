@@ -1,4 +1,4 @@
-package bmr_afkari;
+package bmr_afkari.model;
 
 /**
  *
