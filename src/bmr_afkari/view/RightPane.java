@@ -1,5 +1,7 @@
 package bmr_afkari.view;
 
+import bmr_afkari.BMR_Afkari;
+import bmr_afkari.model.Observable;
 import bmr_afkari.model.Observer;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,15 +12,17 @@ import javafx.scene.text.Text;
 
 /**
  * Represents the right pane where the results are.
- * 
+ *
  * @author g52196
  */
 public class RightPane extends GridPane implements Observer {
 
     private TextField bmrField;
     private TextField caloriesField;
+    private BMR_Afkari observable;
 
     public RightPane() {
+        observable.registerObserver(this);
         setVgap(10);
         setHgap(10);
         Text rightPaneTitle = new Text("Result");
@@ -42,13 +46,14 @@ public class RightPane extends GridPane implements Observer {
     public TextField getBmrField() {
         return bmrField;
     }
-
+    
     public TextField getCaloriesField() {
-        return caloriesField;
+        return bmrField;
     }
-
+    
     @Override
     public void update() {
+        bmrField.setText(String.valueOf(observable.getBmrResult()));
+        caloriesField.setText(String.valueOf(observable.getBmrResult()));
     }
-
 }

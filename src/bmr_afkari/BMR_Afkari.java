@@ -1,10 +1,13 @@
 package bmr_afkari;
 
 import bmr_afkari.model.ActivityLevel;
+import bmr_afkari.model.Observable;
+import bmr_afkari.model.Observer;
 import bmr_afkari.view.DoubleTextField;
 import bmr_afkari.view.IntTextField;
 import bmr_afkari.view.RightPane;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -21,7 +24,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +37,15 @@ import javafx.stage.Stage;
  *
  * @author 52196
  */
-public class BMR_Afkari extends Application {
+public class BMR_Afkari extends Application implements Observable {
+
+    private double size;
+    private double weight;
+    private int age;
+    private double bmrResult;
+    private double factor;
+    private String gender;
+    private ArrayList<Observer> observers;
 
     double bmrWomanCalculation(double size, double weight, int age) {
 
@@ -45,6 +55,18 @@ public class BMR_Afkari extends Application {
 
     double bmrManCalculation(double size, double weight, int age) {
         return 13.7 * weight + 5 * size - 6.8 * age + 66;
+    }
+
+    public double getBmrResult() {
+        if (gender.equals("woman")) {
+            return bmrWomanCalculation(size, weight, age);
+        } else {
+            return bmrManCalculation(size, weight, age);
+        }
+    }
+
+    public double getCaloriesResult() {
+        return getBmrResult() * factor;
     }
 
     @Override
@@ -122,9 +144,6 @@ public class BMR_Afkari extends Application {
 
         submitButton.setOnAction((ActionEvent e) -> {
             DecimalFormat df = new DecimalFormat("0.00");
-            double size;
-            double weight;
-            int age;
             try {
                 size = Double.parseDouble(sizeInput.getText());
                 weight = Double.parseDouble(weightInput.getText());
@@ -139,17 +158,9 @@ public class BMR_Afkari extends Application {
                 new Alert(AlertType.ERROR, "Please enter non-zero value").show();
             }
 
-            double factor = lifestyleChoice.getValue().getFactor();
-
-            if (genderGroup.getSelectedToggle().getUserData().equals("woman")) {
-                Double result = bmrWomanCalculation(size, weight, age);
-                rightPanel.getBmrField().setText(String.valueOf(df.format(result)));
-                rightPanel.getCaloriesField().setText(String.valueOf(df.format(result * factor)));
-            } else {
-                Double result = bmrManCalculation(size, weight, age);
-                rightPanel.getBmrField().setText(String.valueOf(df.format(result)));
-                rightPanel.getCaloriesField().setText(String.valueOf(df.format(result * factor)));
-            }
+            factor = lifestyleChoice.getValue().getFactor();
+            gender = genderGroup.getSelectedToggle().getUserData().toString();
+            this.notifyObservers();
         });
 
         Button clearButton = new Button("Clear");
@@ -174,7 +185,6 @@ public class BMR_Afkari extends Application {
                 rightPanel.getBmrField().setText("");
                 rightPanel.getCaloriesField().setText("");
             }
-
         });
 
         dataPanel.getChildren().addAll(leftPanel, rightPanel);
@@ -192,5 +202,26 @@ public class BMR_Afkari extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void registerObserver(Observer obs) {
+        if (!observers.contains(obs)) {
+            observers.add(obs);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer obs) {
+        if (observers.contains(obs)) {
+            observers.remove(obs);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer obs : observers) {
+            obs.update();
+        }
     }
 }
