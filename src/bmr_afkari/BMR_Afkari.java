@@ -1,13 +1,16 @@
 package bmr_afkari;
 
+import bmr_afkari.view.Chart;
+import bmr_afkari.dp.Observable;
+import bmr_afkari.dp.Observer;
 import bmr_afkari.model.ActivityLevel;
-import bmr_afkari.model.Observable;
-import bmr_afkari.model.Observer;
 import bmr_afkari.view.DoubleTextField;
 import bmr_afkari.view.IntTextField;
 import bmr_afkari.view.RightPane;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -45,12 +48,16 @@ public class BMR_Afkari extends Application implements Observable {
     private double bmrResult;
     private double factor;
     private String gender;
-    private ArrayList<Observer> observers;
+    private DecimalFormat df = new DecimalFormat("0.00");
+    private NumberFormat nf = NumberFormat.getInstance();
+    private List<Observer> observers;
+
+    public BMR_Afkari() {
+        observers = new ArrayList<>();
+    }
 
     double bmrWomanCalculation(double size, double weight, int age) {
-
         return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
-
     }
 
     double bmrManCalculation(double size, double weight, int age) {
@@ -67,6 +74,14 @@ public class BMR_Afkari extends Application implements Observable {
 
     public double getCaloriesResult() {
         return getBmrResult() * factor;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public double getWeight() {
+        return weight;
     }
 
     @Override
@@ -89,11 +104,11 @@ public class BMR_Afkari extends Application implements Observable {
         menuFile.getItems().add(menuItemExit);
         menuBar.getMenus().add(menuFile);
 
-        Chart chart = new Chart();
+        Chart chart = new Chart(this);
 
         HBox dataPanel = new HBox(20);
         GridPane leftPanel = new GridPane();
-        RightPane rightPanel = new RightPane();
+        RightPane rightPanel = new RightPane(this);
         leftPanel.setVgap(10);
         leftPanel.setHgap(10);
 
@@ -143,7 +158,6 @@ public class BMR_Afkari extends Application implements Observable {
         );
 
         submitButton.setOnAction((ActionEvent e) -> {
-            DecimalFormat df = new DecimalFormat("0.00");
             try {
                 size = Double.parseDouble(sizeInput.getText());
                 weight = Double.parseDouble(weightInput.getText());
