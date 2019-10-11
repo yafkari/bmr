@@ -1,6 +1,7 @@
 package bmr_afkari.model;
 
 /**
+ * Represents the different level of activity available with their values.
  *
  * @author 52196
  */

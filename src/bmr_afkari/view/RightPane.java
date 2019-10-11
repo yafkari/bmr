@@ -60,7 +60,9 @@ public class RightPane extends GridPane implements Observer {
 
     @Override
     public void update() {
-        bmrField.setText(String.valueOf(df.format(observable.getBmrResult())));
-        caloriesField.setText(String.valueOf(df.format(observable.getCaloriesResult())));
+        bmrField.setText(
+                String.valueOf(df.format(observable.getBmrResult())));
+        caloriesField.setText(
+                String.valueOf(df.format(observable.getCaloriesResult())));
     }
 }

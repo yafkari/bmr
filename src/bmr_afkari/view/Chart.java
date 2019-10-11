@@ -9,6 +9,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.VBox;
 
 /**
+ * Represents a chart displaying BMR Index vs Weight of given data.
  *
  * @author g52196
  */
@@ -48,7 +49,9 @@ public class Chart extends VBox implements Observer {
 
     @Override
     public void update() {
-        XYChart.Data data = new XYChart.Data(observable.getWeight(), observable.getBmrResult());
+        XYChart.Data data = new XYChart.Data(observable.getWeight(),
+                observable.getBmrResult());
+
         if (observable.getGender().equalsIgnoreCase("woman")) {
             if (!womenData.getData().contains(data)) {
                 womenData.getData().add(data);

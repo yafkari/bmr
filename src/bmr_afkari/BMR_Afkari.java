@@ -7,8 +7,6 @@ import bmr_afkari.model.ActivityLevel;
 import bmr_afkari.view.DoubleTextField;
 import bmr_afkari.view.IntTextField;
 import bmr_afkari.view.RightPane;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -45,7 +43,6 @@ public class BMR_Afkari extends Application implements Observable {
     private double size;
     private double weight;
     private int age;
-    private double bmrResult;
     private double factor;
     private String gender;
     private List<Observer> observers;
@@ -63,7 +60,6 @@ public class BMR_Afkari extends Application implements Observable {
     }
 
     public double getBmrResult() {
-        double result;
         if (gender.equals("woman")) {
             return bmrWomanCalculation(size, weight, age);
         } else {
@@ -150,10 +146,10 @@ public class BMR_Afkari extends Application implements Observable {
         submitButton.setMinWidth(450);
         submitButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
-                        .or(Bindings.isEmpty(weightInput.textProperty())
-                                .or(Bindings.isEmpty(ageInput.textProperty())))
-                        .or(Bindings.isNull(lifestyleChoice.valueProperty()))
-                        .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                    .or(Bindings.isEmpty(weightInput.textProperty())
+                    .or(Bindings.isEmpty(ageInput.textProperty())))
+                    .or(Bindings.isNull(lifestyleChoice.valueProperty()))
+                    .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
 
         submitButton.setOnAction((ActionEvent e) -> {
@@ -168,7 +164,8 @@ public class BMR_Afkari extends Application implements Observable {
             }
 
             if (size == 0 || weight == 0 || age == 0) {
-                new Alert(AlertType.ERROR, "Please enter non-zero value").show();
+                new Alert(AlertType.ERROR, 
+                        "Please enter non-zero value").show();
             }
 
             factor = lifestyleChoice.getValue().getFactor();
@@ -180,10 +177,10 @@ public class BMR_Afkari extends Application implements Observable {
         clearButton.setMinWidth(450);
         clearButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
-                        .and(Bindings.isEmpty(weightInput.textProperty())
-                                .and(Bindings.isEmpty(ageInput.textProperty())))
-                        .and(Bindings.isNull(lifestyleChoice.valueProperty()))
-                        .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                    .and(Bindings.isEmpty(weightInput.textProperty())
+                    .and(Bindings.isEmpty(ageInput.textProperty())))
+                    .and(Bindings.isNull(lifestyleChoice.valueProperty()))
+                    .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
 
         clearButton.addEventHandler(ActionEvent.ACTION,

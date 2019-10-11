@@ -6,6 +6,11 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Represents a text field that only accepts integers.
+ *
+ * @author 52196
+ */
 public class IntTextField extends TextField {
 
     public IntTextField() {
@@ -22,7 +27,8 @@ public class IntTextField extends TextField {
 
         textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observableValue,
+            public void changed(
+                    ObservableValue<? extends String> observableValue,
                     String oldValue, String newValue) {
                 if (!isValid(newValue)) {
                     setText(oldValue);
