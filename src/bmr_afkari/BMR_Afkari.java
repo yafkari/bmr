@@ -48,8 +48,6 @@ public class BMR_Afkari extends Application implements Observable {
     private double bmrResult;
     private double factor;
     private String gender;
-    private DecimalFormat df = new DecimalFormat("0.00");
-    private NumberFormat nf = NumberFormat.getInstance();
     private List<Observer> observers;
 
     public BMR_Afkari() {
@@ -65,6 +63,7 @@ public class BMR_Afkari extends Application implements Observable {
     }
 
     public double getBmrResult() {
+        double result;
         if (gender.equals("woman")) {
             return bmrWomanCalculation(size, weight, age);
         } else {

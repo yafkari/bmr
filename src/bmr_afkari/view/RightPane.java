@@ -3,6 +3,7 @@ package bmr_afkari.view;
 import bmr_afkari.BMR_Afkari;
 import bmr_afkari.dp.Observable;
 import bmr_afkari.dp.Observer;
+import java.text.DecimalFormat;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -20,13 +21,14 @@ public class RightPane extends GridPane implements Observer {
     private TextField bmrField;
     private TextField caloriesField;
     private BMR_Afkari observable;
+    private DecimalFormat df = new DecimalFormat("0.00");
 
     public RightPane(Observable observable) {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
         this.observable = (BMR_Afkari) observable;
-        
+
         observable.registerObserver(this);
         setVgap(10);
         setHgap(10);
@@ -58,7 +60,7 @@ public class RightPane extends GridPane implements Observer {
 
     @Override
     public void update() {
-        bmrField.setText(String.valueOf(observable.getBmrResult()));
-        caloriesField.setText(String.valueOf(observable.getBmrResult()));
+        bmrField.setText(String.valueOf(df.format(observable.getBmrResult())));
+        caloriesField.setText(String.valueOf(df.format(observable.getCaloriesResult())));
     }
 }
