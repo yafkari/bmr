@@ -51,19 +51,11 @@ public class BMR_Afkari extends Application implements Observable {
         observers = new ArrayList<>();
     }
 
-    double bmrWomanCalculation(double size, double weight, int age) {
-        return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
-    }
-
-    double bmrManCalculation(double size, double weight, int age) {
-        return 13.7 * weight + 5 * size - 6.8 * age + 66;
-    }
-
     public double getBmrResult() {
         if (gender.equals("woman")) {
-            return bmrWomanCalculation(size, weight, age);
+            return 9.6 * weight + 1.8 * size - 4.7 * age + 655;
         } else {
-            return bmrManCalculation(size, weight, age);
+            return 13.7 * weight + 5 * size - 6.8 * age + 66;
         }
     }
 
@@ -146,10 +138,10 @@ public class BMR_Afkari extends Application implements Observable {
         submitButton.setMinWidth(450);
         submitButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
-                    .or(Bindings.isEmpty(weightInput.textProperty())
-                    .or(Bindings.isEmpty(ageInput.textProperty())))
-                    .or(Bindings.isNull(lifestyleChoice.valueProperty()))
-                    .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                        .or(Bindings.isEmpty(weightInput.textProperty())
+                                .or(Bindings.isEmpty(ageInput.textProperty())))
+                        .or(Bindings.isNull(lifestyleChoice.valueProperty()))
+                        .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
 
         submitButton.setOnAction((ActionEvent e) -> {
@@ -164,7 +156,7 @@ public class BMR_Afkari extends Application implements Observable {
             }
 
             if (size == 0 || weight == 0 || age == 0) {
-                new Alert(AlertType.ERROR, 
+                new Alert(AlertType.ERROR,
                         "Please enter non-zero value").show();
             }
 
@@ -177,10 +169,10 @@ public class BMR_Afkari extends Application implements Observable {
         clearButton.setMinWidth(450);
         clearButton.disableProperty().bind(
                 Bindings.isEmpty(sizeInput.textProperty())
-                    .and(Bindings.isEmpty(weightInput.textProperty())
-                    .and(Bindings.isEmpty(ageInput.textProperty())))
-                    .and(Bindings.isNull(lifestyleChoice.valueProperty()))
-                    .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                        .and(Bindings.isEmpty(weightInput.textProperty())
+                                .and(Bindings.isEmpty(ageInput.textProperty())))
+                        .and(Bindings.isNull(lifestyleChoice.valueProperty()))
+                        .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
         );
 
         clearButton.addEventHandler(ActionEvent.ACTION,
