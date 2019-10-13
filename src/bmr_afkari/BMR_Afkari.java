@@ -1,7 +1,9 @@
 package bmr_afkari;
 
+import bmr_afkari.model.ActivityLevel;
 import bmr_afkari.view.Chart;
 import bmr_afkari.view.ResultPanel;
+import java.util.Arrays;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -25,6 +27,10 @@ public class BMR_Afkari extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // for td 6 about lamdas
+        Arrays.asList(ActivityLevel.values())
+                .stream()
+                .forEach(activity -> System.out.println(activity));
         primaryStage.setTitle("Basal Metabolic Rate");
 
         VBox rootStage = new VBox();
