@@ -1,41 +1,20 @@
 package bmr_afkari;
 
 import bmr_afkari.view.Chart;
-import bmr_afkari.dp.Observable;
-import bmr_afkari.dp.Observer;
-import bmr_afkari.model.ActivityLevel;
-import bmr_afkari.view.DoubleTextField;
-import bmr_afkari.view.IntTextField;
 import bmr_afkari.view.ResultPanel;
-import bmr_afkari.view.RightPane;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
