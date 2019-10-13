@@ -25,9 +25,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -71,6 +74,10 @@ public class BMR_Afkari extends Application implements Observable {
         return weight;
     }
 
+    public double getSize() {
+        return size;
+    }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Basal Metabolic Rate");
@@ -91,7 +98,19 @@ public class BMR_Afkari extends Application implements Observable {
         menuFile.getItems().add(menuItemExit);
         menuBar.getMenus().add(menuFile);
 
-        Chart chart = new Chart(this);
+        TabPane chartPanes = new TabPane();
+
+        Chart weightVsBmrChart = new Chart(this, "Weight (kg) vs BMR");
+        Chart weightVsCaloriesChart = new Chart(this, "Weight (kg) vs Calories");
+        Chart sizeVsBmrChart = new Chart(this, "Size (cm) vs BMR");
+
+        Tab weightVsBmrTab = new Tab(weightVsBmrChart.getTitle());
+        Tab weightVsCaloriesTab = new Tab(weightVsCaloriesChart.getTitle());
+        Tab sizeVsBmrTab = new Tab(sizeVsBmrChart.getTitle());
+
+        chartPanes.getTabs().add(weightVsBmrTab);
+        chartPanes.getTabs().add(weightVsCaloriesTab);
+        chartPanes.getTabs().add(sizeVsBmrTab);
 
         HBox dataPanel = new HBox(20);
         GridPane leftPanel = new GridPane();
@@ -191,7 +210,15 @@ public class BMR_Afkari extends Application implements Observable {
 
         dataPanel.getChildren().addAll(leftPanel, rightPanel);
         data.getChildren().addAll(dataPanel, submitButton, clearButton);
-        root.getChildren().addAll(data, chart);
+
+        weightVsBmrTab.setContent(weightVsBmrChart);
+        weightVsCaloriesTab.setContent(weightVsCaloriesChart);
+        sizeVsBmrTab.setContent(sizeVsBmrChart);
+
+        HBox.setHgrow(data, Priority.ALWAYS);
+        HBox.setHgrow(chartPanes, Priority.ALWAYS);
+
+        root.getChildren().addAll(data, chartPanes);
         rootStage.getChildren().addAll(menuBar, root);
         Scene scene = new Scene(rootStage, 1000, 350);
         primaryStage.setScene(scene);

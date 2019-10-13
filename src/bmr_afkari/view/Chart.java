@@ -21,18 +21,21 @@ public class Chart extends VBox implements Observer {
     private LineChart<Number, Number> chart;
     private XYChart.Series menData;
     private XYChart.Series womenData;
+    private String title;
 
-    public Chart(Observable observable) {
+    public Chart(Observable observable, String title) {
+        super(0);
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
         this.observable = (BMR_Afkari) observable;
+        this.title = title;
 
         observable.registerObserver(this);
-        xAxis.setLabel("Weight (kg)");
-        yAxis.setLabel("BMR");
+        xAxis.setLabel(title.split(" vs ")[0]);
+        yAxis.setLabel(title.split(" vs ")[1]);
         chart = new LineChart<>(xAxis, yAxis);
-        chart.setTitle("BMR Index vs Weight");
+        chart.setTitle(title);
         chart.setAnimated(false);
 
         menData = new XYChart.Series();
@@ -49,8 +52,19 @@ public class Chart extends VBox implements Observer {
 
     @Override
     public void update() {
-        XYChart.Data data = new XYChart.Data(observable.getWeight(),
-                observable.getBmrResult());
+        XYChart.Data data;
+        if (title.equals("Weight (kg) vs BMR")) {
+            data = new XYChart.Data(observable.getWeight(),
+                    observable.getBmrResult());
+        } else if (title.equals("Weight (kg) vs Calories")) {
+            data = new XYChart.Data(observable.getWeight(),
+                    observable.getCaloriesResult());
+        } else if (title.equals("Size (cm) vs BMR")) {
+            data = new XYChart.Data(observable.getSize(),
+                    observable.getBmrResult());
+        } else {
+            throw new IllegalArgumentException("Unknown chart title: " + title);
+        }
 
         if (observable.getGender().equalsIgnoreCase("woman")) {
             if (!womenData.getData().contains(data)) {
@@ -61,5 +75,9 @@ public class Chart extends VBox implements Observer {
                 menData.getData().add(data);
             }
         }
+    }
+    
+    public String getTitle() {
+        return title;
     }
 }
