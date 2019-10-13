@@ -20,14 +20,14 @@ public class RightPane extends GridPane implements Observer {
 
     private TextField bmrField;
     private TextField caloriesField;
-    private BMR_Afkari observable;
+    private ResultPanel observable;
     private DecimalFormat df = new DecimalFormat("0.00");
 
     public RightPane(Observable observable) {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
-        this.observable = (BMR_Afkari) observable;
+        this.observable = (ResultPanel) observable;
 
         observable.registerObserver(this);
         setVgap(10);

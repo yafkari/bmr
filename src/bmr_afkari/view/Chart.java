@@ -1,6 +1,5 @@
 package bmr_afkari.view;
 
-import bmr_afkari.BMR_Afkari;
 import bmr_afkari.dp.Observable;
 import bmr_afkari.dp.Observer;
 import javafx.scene.chart.LineChart;
@@ -17,7 +16,7 @@ public class Chart extends VBox implements Observer {
 
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
-    private BMR_Afkari observable;
+    private ResultPanel observable;
     private LineChart<Number, Number> chart;
     private XYChart.Series menData;
     private XYChart.Series womenData;
@@ -28,7 +27,7 @@ public class Chart extends VBox implements Observer {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
-        this.observable = (BMR_Afkari) observable;
+        this.observable = (ResultPanel) observable;
         this.title = title;
 
         observable.registerObserver(this);
@@ -76,7 +75,7 @@ public class Chart extends VBox implements Observer {
             }
         }
     }
-    
+
     public String getTitle() {
         return title;
     }
