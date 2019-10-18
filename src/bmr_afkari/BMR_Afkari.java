@@ -37,8 +37,6 @@ public class BMR_Afkari extends Application {
         HBox root = new HBox();
 
         ResultPanel data = new ResultPanel(25);
-        data.setAlignment(Pos.TOP_CENTER);
-        data.setPadding(new Insets(20, 0, 0, 20));
 
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");

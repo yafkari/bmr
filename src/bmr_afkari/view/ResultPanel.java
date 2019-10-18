@@ -8,6 +8,8 @@ import java.util.List;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -137,6 +139,10 @@ public class ResultPanel extends VBox implements Observable {
 
         dataPanel.getChildren().addAll(leftPanel, rightPanel);
         getChildren().addAll(dataPanel, submitButton, clearButton);
+    
+        
+        setAlignment(Pos.TOP_CENTER);
+        setPadding(new Insets(20, 0, 0, 20));
     }
 
     public double getBmrResult() {
