@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
  *
  * @author g52196
  */
-public class LeftPane extends GridPane {
+public class ResultLeftPane extends GridPane {
 
     private DoubleTextField sizeInput;
     private DoubleTextField weightInput;
@@ -32,12 +32,12 @@ public class LeftPane extends GridPane {
     private ChoiceBox<ActivityLevel> lifestyleChoice;
     private ToggleGroup genderGroup;
 
-    LeftPane() {
+    ResultLeftPane() {
         setVgap(10);
         setHgap(10);
-        Text leftPaneTitle = new Text("Data");
-        leftPaneTitle.setUnderline(true);
-        leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
+        Text ResultLeftPaneTitle = new Text("Data");
+        ResultLeftPaneTitle.setUnderline(true);
+        ResultLeftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
 
         Label sizeLabel = new Label("Size (cm)");
         sizeInput = new DoubleTextField();
@@ -58,7 +58,7 @@ public class LeftPane extends GridPane {
         lifestyleChoice = new ChoiceBox();
         lifestyleChoice.getItems().setAll(ActivityLevel.values());
 
-        add(leftPaneTitle, 0, 0);
+        add(ResultLeftPaneTitle, 0, 0);
         add(sizeLabel, 0, 1);
         add(sizeInput, 1, 1);
         add(weightLabel, 0, 2);

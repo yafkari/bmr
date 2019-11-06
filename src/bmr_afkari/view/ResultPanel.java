@@ -41,8 +41,8 @@ public class ResultPanel extends VBox implements Observable {
         observers = new ArrayList<>();
 
         HBox dataPanel = new HBox(20);
-        LeftPane leftPanel = new LeftPane();
-        RightPane rightPanel = new RightPane(this);
+        ResultLeftPane leftPanel = new ResultLeftPane();
+        ResultRightPane rightPanel = new ResultRightPane(this);
         
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);

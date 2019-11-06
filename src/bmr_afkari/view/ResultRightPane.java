@@ -15,14 +15,14 @@ import javafx.scene.text.Text;
  *
  * @author g52196
  */
-public class RightPane extends GridPane implements Observer {
+public class ResultRightPane extends GridPane implements Observer {
 
     private TextField bmrField;
     private TextField caloriesField;
     private ResultPanel observable;
     private DecimalFormat df = new DecimalFormat("0.00");
 
-    public RightPane(Observable observable) {
+    public ResultRightPane(Observable observable) {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
@@ -31,9 +31,9 @@ public class RightPane extends GridPane implements Observer {
         observable.registerObserver(this);
         setVgap(10);
         setHgap(10);
-        Text rightPaneTitle = new Text("Result");
-        rightPaneTitle.setUnderline(true);
-        rightPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
+        Text ResultRightPaneTitle = new Text("Result");
+        ResultRightPaneTitle.setUnderline(true);
+        ResultRightPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
 
         Label bmrLabel = new Label("BMR");
         Label caloriesLabel = new Label("Calories");
@@ -42,7 +42,7 @@ public class RightPane extends GridPane implements Observer {
         caloriesField = new TextField();
         caloriesField.setEditable(false);
 
-        add(rightPaneTitle, 0, 0);
+        add(ResultRightPaneTitle, 0, 0);
         add(bmrLabel, 0, 1);
         add(bmrField, 1, 1);
         add(caloriesLabel, 0, 2);
