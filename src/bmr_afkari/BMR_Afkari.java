@@ -25,7 +25,7 @@ public class BMR_Afkari extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // for td 6 about lamdas
+        // for td 6 about lambdas
         Arrays.asList(ActivityLevel.values())
                 .stream()
                 .forEach(activity -> System.out.println(activity));

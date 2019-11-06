@@ -16,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -42,61 +41,24 @@ public class ResultPanel extends VBox implements Observable {
         observers = new ArrayList<>();
 
         HBox dataPanel = new HBox(20);
-        GridPane leftPanel = new GridPane();
+        LeftPane leftPanel = new LeftPane();
         RightPane rightPanel = new RightPane(this);
-        leftPanel.setVgap(10);
-        leftPanel.setHgap(10);
-
-        Text leftPaneTitle = new Text("Data");
-        leftPaneTitle.setUnderline(true);
-        leftPaneTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
-
-        Label sizeLabel = new Label("Size (cm)");
-        DoubleTextField sizeInput = new DoubleTextField();
-        Label weightLabel = new Label("Weight (kg)");
-        DoubleTextField weightInput = new DoubleTextField();
-        Label ageLabel = new Label("Age (years)");
-        IntTextField ageInput = new IntTextField();
-        Label genderLabel = new Label("Gender");
-
-        ToggleGroup genderGroup = new ToggleGroup();
-        RadioButton womanButton = new RadioButton("Woman");
-        womanButton.setToggleGroup(genderGroup);
-        womanButton.setUserData("woman");
-        RadioButton manButton = new RadioButton("Man");
-        manButton.setToggleGroup(genderGroup);
-        manButton.setUserData("man");
-        Label lifestyleLabel = new Label("Life Style");
-        ChoiceBox<ActivityLevel> lifestyleChoice = new ChoiceBox();
-        lifestyleChoice.getItems().setAll(ActivityLevel.values());
-
-        leftPanel.add(leftPaneTitle, 0, 0);
-        leftPanel.add(sizeLabel, 0, 1);
-        leftPanel.add(sizeInput, 1, 1);
-        leftPanel.add(weightLabel, 0, 2);
-        leftPanel.add(weightInput, 1, 2);
-        leftPanel.add(ageLabel, 0, 3);
-        leftPanel.add(ageInput, 1, 3);
-        leftPanel.add(genderLabel, 0, 4);
-        leftPanel.add(new HBox(20, womanButton, manButton), 1, 4);
-        leftPanel.add(lifestyleLabel, 0, 5);
-        leftPanel.add(lifestyleChoice, 1, 5);
-
+        
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);
         submitButton.disableProperty().bind(
-                Bindings.isEmpty(sizeInput.textProperty())
-                        .or(Bindings.isEmpty(weightInput.textProperty())
-                                .or(Bindings.isEmpty(ageInput.textProperty())))
-                        .or(Bindings.isNull(lifestyleChoice.valueProperty()))
-                        .or(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                Bindings.isEmpty(leftPanel.getSizeInputProperty())
+                        .or(Bindings.isEmpty(leftPanel.getWeightInputProperty())
+                                .or(Bindings.isEmpty(leftPanel.getAgeInputProperty())))
+                        .or(Bindings.isNull(leftPanel.getLifestyleChoiceProperty()))
+                        .or(Bindings.isNull(leftPanel.getGenderGroupProperty()))
         );
 
         submitButton.setOnAction((ActionEvent e) -> {
             try {
-                size = Double.parseDouble(sizeInput.getText());
-                weight = Double.parseDouble(weightInput.getText());
-                age = Integer.parseInt(ageInput.getText());
+                size = Double.parseDouble(leftPanel.getSizeInputText());
+                weight = Double.parseDouble(leftPanel.getWeightInputText());
+                age = Integer.parseInt(leftPanel.getAgeInputText());
             } catch (NumberFormatException ex) {
                 rightPanel.getBmrField().setText("CHECK THE VALUES !");
                 rightPanel.getCaloriesField().setText("");
@@ -108,30 +70,30 @@ public class ResultPanel extends VBox implements Observable {
                         "Please enter non-zero value").show();
             }
 
-            factor = lifestyleChoice.getValue().getFactor();
-            gender = genderGroup.getSelectedToggle().getUserData().toString();
+            factor = leftPanel.getLifestyleFactor();
+            gender = leftPanel.getGenderSelected();
             this.notifyObservers();
         });
 
         Button clearButton = new Button("Clear");
         clearButton.setMinWidth(450);
         clearButton.disableProperty().bind(
-                Bindings.isEmpty(sizeInput.textProperty())
-                        .and(Bindings.isEmpty(weightInput.textProperty())
-                                .and(Bindings.isEmpty(ageInput.textProperty())))
-                        .and(Bindings.isNull(lifestyleChoice.valueProperty()))
-                        .and(Bindings.isNull(genderGroup.selectedToggleProperty()))
+                Bindings.isEmpty(leftPanel.getSizeInputProperty())
+                        .and(Bindings.isEmpty(leftPanel.getWeightInputProperty())
+                                .and(Bindings.isEmpty(leftPanel.getAgeInputProperty())))
+                        .and(Bindings.isNull(leftPanel.getLifestyleChoiceProperty()))
+                        .and(Bindings.isNull(leftPanel.getGenderGroupProperty()))
         );
 
         clearButton.addEventHandler(ActionEvent.ACTION,
                 new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                sizeInput.setText("");
-                weightInput.setText("");
-                ageInput.setText("");
-                lifestyleChoice.getSelectionModel().clearSelection();
-                genderGroup.getSelectedToggle().setSelected(false);
+                leftPanel.setSize("");
+                leftPanel.setWeight("");
+                leftPanel.setAge("");
+                leftPanel.emptyLifestyleChoice();
+                leftPanel.setGenderGroupSelected(false);
                 rightPanel.getBmrField().setText("");
                 rightPanel.getCaloriesField().setText("");
             }
