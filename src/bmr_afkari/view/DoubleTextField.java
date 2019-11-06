@@ -1,8 +1,6 @@
 package bmr_afkari.view;
 
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
@@ -16,25 +14,19 @@ public class DoubleTextField extends TextField {
     public DoubleTextField() {
         super();
 
-        addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (!isValid(getText())) {
-                    event.consume();
-                }
+        addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent event) -> {
+            if (!isValid(getText())) {
+                event.consume();
             }
         });
 
-        textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(
-                    ObservableValue<? extends String> observableValue,
-                    String oldValue, String newValue) {
-                if (!isValid(newValue)) {
-                    setText(oldValue);
-                }
-            }
-        });
+        textProperty().addListener(
+                (ObservableValue<? extends String> observableValue,
+                        String oldValue, String newValue) -> {
+                    if (!isValid(newValue)) {
+                        setText(oldValue);
+                    }
+                });
     }
 
     private boolean isValid(final String value) {
