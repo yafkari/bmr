@@ -24,6 +24,7 @@ public enum ActivityLevel {
         return factor;
     }
 
+    @Override
     public String toString() {
         return label;
     }

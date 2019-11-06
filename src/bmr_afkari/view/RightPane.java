@@ -1,6 +1,5 @@
 package bmr_afkari.view;
 
-import bmr_afkari.BMR_Afkari;
 import bmr_afkari.dp.Observable;
 import bmr_afkari.dp.Observer;
 import java.text.DecimalFormat;
