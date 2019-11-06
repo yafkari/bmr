@@ -52,8 +52,8 @@ public class ResultPanel extends VBox implements Observable {
                 weight = Double.parseDouble(leftPanel.getWeightInputText());
                 age = Integer.parseInt(leftPanel.getAgeInputText());
             } catch (NumberFormatException ex) {
-                rightPanel.getBmrField().setText("CHECK THE VALUES !");
-                rightPanel.getCaloriesField().setText("");
+                rightPanel.setBmrField("CHECK THE VALUES !");
+                rightPanel.setCaloriesField("");
                 return;
             }
 
@@ -86,8 +86,8 @@ public class ResultPanel extends VBox implements Observable {
                 leftPanel.setAge("");
                 leftPanel.emptyLifestyleChoice();
                 leftPanel.setGenderGroupSelected(false);
-                rightPanel.getBmrField().setText("");
-                rightPanel.getCaloriesField().setText("");
+                rightPanel.setBmrField("");
+                rightPanel.setCaloriesField("");
             }
         });
 

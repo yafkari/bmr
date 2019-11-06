@@ -49,12 +49,12 @@ public class ResultRightPane extends GridPane implements Observer {
         add(caloriesField, 1, 2);
     }
 
-    public TextField getBmrField() {
-        return bmrField;
+    void setBmrField(String text) {
+        bmrField.setText(text);
     }
 
-    public TextField getCaloriesField() {
-        return bmrField;
+    void setCaloriesField(String text) {
+        caloriesField.setText(text);
     }
 
     @Override
