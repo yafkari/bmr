@@ -16,7 +16,7 @@ public class Chart extends VBox implements Observer {
 
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
-    private ResultPanel observable;
+    private dataSide observable;
     private LineChart<Number, Number> chart;
     private XYChart.Series menData;
     private XYChart.Series womenData;
@@ -27,7 +27,7 @@ public class Chart extends VBox implements Observer {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
-        this.observable = (ResultPanel) observable;
+        this.observable = (dataSide) observable;
         this.title = title;
 
         observable.registerObserver(this);

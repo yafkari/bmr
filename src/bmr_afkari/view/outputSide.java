@@ -15,18 +15,18 @@ import javafx.scene.text.Text;
  *
  * @author g52196
  */
-public class ResultRightPane extends GridPane implements Observer {
+public class outputSide extends GridPane implements Observer {
 
     private TextField bmrField;
     private TextField caloriesField;
-    private ResultPanel observable;
+    private dataSide observable;
     private DecimalFormat df = new DecimalFormat("0.00");
 
-    public ResultRightPane(Observable observable) {
+    public outputSide(Observable observable) {
         if (observable == null) {
             throw new IllegalArgumentException("Nothing to observe");
         }
-        this.observable = (ResultPanel) observable;
+        this.observable = (dataSide) observable;
 
         observable.registerObserver(this);
         setVgap(10);

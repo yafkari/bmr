@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
  *
  *
  */
-public class ResultPanel extends VBox implements Observable {
+public class dataSide extends VBox implements Observable {
 
     private double size;
     private double weight;
@@ -28,13 +28,13 @@ public class ResultPanel extends VBox implements Observable {
     private String gender;
     private List<Observer> observers;
 
-    public ResultPanel(double spacing) {
+    public dataSide(double spacing) {
         super(spacing);
         observers = new ArrayList<>();
 
         HBox dataPanel = new HBox(20);
-        ResultLeftPane leftPanel = new ResultLeftPane();
-        ResultRightPane rightPanel = new ResultRightPane(this);
+        inputSide leftPanel = new inputSide();
+        outputSide rightPanel = new outputSide(this);
         
         Button submitButton = new Button("Submit");
         submitButton.setMinWidth(450);

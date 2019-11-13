@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
  *
  * @author g52196
  */
-public class ResultLeftPane extends GridPane {
+public class inputSide extends GridPane {
 
     private DoubleTextField sizeInput;
     private DoubleTextField weightInput;
@@ -27,7 +27,7 @@ public class ResultLeftPane extends GridPane {
     private ChoiceBox<ActivityLevel> lifestyleChoice;
     private ToggleGroup genderGroup;
 
-    ResultLeftPane() {
+    inputSide() {
         setVgap(10);
         setHgap(10);
         Text ResultLeftPaneTitle = new Text("Data");

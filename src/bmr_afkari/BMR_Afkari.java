@@ -2,7 +2,7 @@ package bmr_afkari;
 
 import bmr_afkari.model.ActivityLevel;
 import bmr_afkari.view.Chart;
-import bmr_afkari.view.ResultPanel;
+import bmr_afkari.view.dataSide;
 import java.util.Arrays;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -34,7 +34,7 @@ public class BMR_Afkari extends Application {
         VBox rootStage = new VBox();
         HBox root = new HBox();
 
-        ResultPanel data = new ResultPanel(25);
+        dataSide data = new dataSide(25);
 
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
